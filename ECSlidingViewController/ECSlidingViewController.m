@@ -746,13 +746,15 @@
 #pragma mark - UIPanGestureRecognizer action
 
 - (void)detectPanGestureRecognizer:(UIPanGestureRecognizer *)recognizer {
-    if (recognizer.state == UIGestureRecognizerStateBegan) {
-        [self.view endEditing:YES];
-        _isInteractive = YES;
+    if ( !_isSwipeDisable ) {
+        if (recognizer.state == UIGestureRecognizerStateBegan) {
+            [self.view endEditing:YES];
+            _isInteractive = YES;
+        }
+        
+        [self.defaultInteractiveTransition updateTopViewHorizontalCenterWithRecognizer:recognizer];
+        _isInteractive = NO;
     }
-    
-    [self.defaultInteractiveTransition updateTopViewHorizontalCenterWithRecognizer:recognizer];
-    _isInteractive = NO;
 }
 
 #pragma mark - UIViewControllerTransitionCoordinatorContext
@@ -922,6 +924,15 @@
     }
     
     return CGRectZero;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer
+                                                                                                                       *)otherGestureRecognizer {
+    if ([otherGestureRecognizer.view isKindOfClass:[UIScrollView class]]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 #pragma mark - UIViewControllerTransitionCoordinator
