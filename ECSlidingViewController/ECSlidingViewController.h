@@ -284,6 +284,11 @@
 @property (nonatomic, assign, readonly) ECSlidingViewControllerTopViewPosition currentTopViewPosition;
 
 /**
+ Disable swiping on parent viewcontroller
+ */
+@property ( nonatomic, assign ) BOOL isSwipeDisable;
+
+/**
  The gesture that triggers the default interactive transition for a horizontal swipe. This is typically added to the top view or one of the top view's subviews.
  */
 @property (nonatomic, strong, readonly) UIPanGestureRecognizer *panGesture;
